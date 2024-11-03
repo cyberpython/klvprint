@@ -60,3 +60,11 @@ e.g.:
 ```
 ffmpeg -re -i samples/Night\ Flight\ IR.mpg -map 0 -c copy -f mpegts udp://127.0.0.1:1234
 ```
+
+## Acknowledgements
+
+This would not have been possible without the awesome:
+
+- FFmpeg(https://www.ffmpeg.org/) application (LGPL 2.1 license)
+- klvdata (https://github.com/paretech/klvdata) library (MIT license)
+- ffmpeg-python (https://github.com/kkroening/ffmpeg-python) library (Apache-2.0 license)
