@@ -193,7 +193,7 @@ class KlvPrinter(threading.Thread):
 
     def __init__(self, input_queue: Queue, writer: KlvOutputWriter, out: BinaryIO):
         threading.Thread.__init__(self, name="KlvPrinter")
-        self.q = input_queue
+        self.input_queue = input_queue
         self.writer = writer
         self.out = out
         self.stopped = threading.Event()
@@ -206,7 +206,7 @@ class KlvPrinter(threading.Thread):
         self.writer.start(self.out)
         while not self.stopped.is_set():
             try:
-                buffer = self.q.get(timeout=1.0)
+                buffer = self.input_queue.get(timeout=1.0)
                 for packet in klvdata.StreamParser(buffer):
                     packet_count += 1
                     metadata = packet.MetadataList()
@@ -270,10 +270,10 @@ if __name__ == "__main__":
         elif args.output == 'text':
             writer = KlvTextOutputWriter()
 
-        klvPrinter = KlvPrinter(data_queue, writer, sys.stdout)
+        klv_printer = KlvPrinter(data_queue, writer, sys.stdout)
         klv_packet_reader = KlvPacketReader(ffmpeg_proc.stdout, data_queue)
 
-        klvPrinter.start()
+        klv_printer.start()
         klv_packet_reader.start()
 
         try:
@@ -283,9 +283,9 @@ if __name__ == "__main__":
             pass
 
         klv_packet_reader.stop()
-        klvPrinter.stop()
+        klv_printer.stop()
         ffmpeg_proc.kill()
 
         klv_packet_reader.join()
-        klvPrinter.join()
+        klv_printer.join()
         ffmpeg_proc.wait()
