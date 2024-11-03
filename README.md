@@ -11,9 +11,10 @@ plain text, CSV or JSON format.
 ## Requirements
 
 Python 3.x with pip (tested with Python 3.10 on Ubuntu 22.04.1).
+
 FFmpeg (tested with 4.4.2 on Ubuntu 22.04.1).
 
-All required dependencies can be installed using pip with:
+All other required dependencies can be installed using pip with:
 
 ```
 pip3 install -r requirements.txt
